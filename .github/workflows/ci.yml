@@ -8,7 +8,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        php-version: ['8.0.3']
+        php-version: ['7.4']
     steps:
       - name: checkout
         uses: actions/checkout@v2
