@@ -5,7 +5,7 @@ jobs:
     name: Besoin d'un job ?
     runs-on: ${{ matrix.operating-system }}
     strategy:
-      fail-faste: false
+      fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
         php-version: ['8.0.3']
