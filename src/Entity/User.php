@@ -2,19 +2,20 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM; 
-
-use ... 
+use App\Adapter\Doctrine\Repository\UserRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * class USer
+ * Class User
  * @package App\Entity
  * @ORM\Entity
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"job_seeker" = "App\Entity\JobSeeker", "recruiter" = "App\Entity\Recruiter"})
  */
-abstract class User
+abstract class User implements UserInterface, \Serializable, EquatableInterface
 {
     /**
      * @var int|null
@@ -29,7 +30,6 @@ abstract class User
      * @ORM\Column
      */
     protected ?string $firstName = null;
-
 
     /**
      * @var string|null
@@ -58,176 +58,160 @@ abstract class User
      * @var \DateTimeInterface
      * @ORM\Column(type="datetime_immutable")
      */
-    protected \DateTimeInterface $registereAt;
+    protected \DateTimeInterface $registeredAt;
 
     /**
      * User constructor.
      */
     public function __construct()
     {
-        $this->registereAt = new \DateTimeImmutable()
+        $this->registeredAt = new \DateTimeImmutable();
     }
 
     /**
-     *
-     * @return integer|null
+     * @return int|null
      */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    
-
-	function getPrivateintidnull() { 
- 		return $this->privateintidnull; 
-	} 
-
-	function setPrivateintidnull($privateintidnull) {  
-		$this->privateintidnull = $privateintidnull; 
-	} 
-
     /**
-     * Get the value of firstName
-     *
-     * @return  string|null
+     * @return string|null
      */
-    public function getFirstName()
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
     /**
-     * Set the value of firstName
-     *
-     * @param  string|null  $firstName
-     *
-     * @return  self
+     * @param string|null $firstName
      */
-    public function setFirstName(?string $firstName)
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
-
         return $this;
     }
 
     /**
-     * Get the value of lastName
-     *
-     * @return  string|null
+     * @return string|null
      */
-    public function getLastName()
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
     /**
-     * Set the value of lastName
-     *
-     * @param  string|null  $lastName
-     *
-     * @return  self
+     * @param string|null $lastName
      */
-    public function setLastName(?string $lastName)
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
-
         return $this;
     }
 
     /**
-     * Get the value of email
-     *
-     * @return  string|null
+     * @return string|null
      */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
     /**
-     * Set the value of email
-     *
-     * @param  string|null  $email
-     *
-     * @return  self
+     * @param string|null $email
      */
-    public function setEmail(?string $email)
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
-
         return $this;
     }
 
     /**
-     * Get the value of password
-     *
-     * @return  string|null
+     * @return string|null
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
     /**
-     * Set the value of password
-     *
-     * @param  string|null  $password
-     *
-     * @return  self
+     * @param string|null $password
      */
-    public function setPassword(?string $password)
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
-
         return $this;
     }
 
     /**
-     * Get the value of plainPassword
-     *
-     * @return  string|null
+     * @return string|null
      */
-    public function getPlainPassword()
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
     /**
-     * Set the value of plainPassword
-     *
-     * @param  string|null  $plainPassword
-     *
-     * @return  self
+     * @param string|null $plainPassword
      */
-    public function setPlainPassword(?string $plainPassword)
+    public function setPlainPassword(?string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
-
         return $this;
     }
 
     /**
-     * Get the value of registereAt
-     *
-     * @return  \DateTimeInterface
+     * @return \DateTimeInterface
      */
-    public function getRegistereAt()
+    public function getRegisteredAt(): \DateTimeInterface
     {
-        return $this->registereAt;
+        return $this->registeredAt;
     }
 
     /**
-     * Set the value of registereAt
-     *
-     * @param  \DateTimeInterface  $registereAt
-     *
-     * @return  self
+     * @inheritDoc
      */
-    public function setRegistereAt(\DateTimeInterface $registereAt)
+    public function getSalt()
     {
-        $this->registereAt = $registereAt;
+    }
 
-        return $this;
+    /**
+     * @inheritDoc
+     */
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function serialize()
+    {
+        return serialize([$this->email]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function unserialize($serialized)
+    {
+        list($this->email) = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isEqualTo(UserInterface $user)
+    {
+        return $user->getUsername() === $this->getUsername();
     }
 }
