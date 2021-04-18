@@ -7,10 +7,23 @@ use Behat\Behat\Context\Context;
 class CloseApplicationContext implements Context
 {
     /**
-     * @Given /^I want to close application$/
+     * @Given /^I want to close an application$/
      */
-    public function iwanttocloseapplication()
+    public function iWantToCloseAnApplication()
     {
-        throw new \Behat\Behat\Tester\Exception\PendingException();
+    }
+
+    /**
+     * @When /^I close it$/
+     */
+    public function iCloseIt()
+    {
+    }
+
+    /**
+     * @Then /^the recruitment process is stopped$/
+     */
+    public function theRecruitmentProcessIsStopped()
+    {
     }
 }

@@ -7,10 +7,23 @@ use Behat\Behat\Context\Context;
 class DeleteOfferContext implements Context
 {
     /**
-     * @Given /^I want delete offer job$/
+     * @Given /^I want to delete an offer$/
      */
-    public function iwantdeleteofferjob()
+    public function iWantToDeleteAnOffer()
     {
-        throw new \Behat\Behat\Tester\Exception\PendingException();
+    }
+
+    /**
+     * @When /^I select the offer to delete it$/
+     */
+    public function iSelectTheOfferToDeleteIt()
+    {
+    }
+
+    /**
+     * @Then /^job seekers will no longer be able to apply for the job offer$/
+     */
+    public function jobSeekersWillNoLongerBeAbleToApplyForTheJobOffer()
+    {
     }
 }

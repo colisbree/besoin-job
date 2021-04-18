@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Features;
+
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
