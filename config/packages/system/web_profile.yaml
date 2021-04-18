@@ -1,0 +1,6 @@
+web_profile:
+  toolbar: false
+  intercept_redirects: false
+
+framework:
+  profiler: { collect: false }
